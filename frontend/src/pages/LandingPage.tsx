@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 function LandingPage() {
+  const navigate = useNavigate();
   return (
     <>
     <div className="w-screen h-screen grid grid-rows-10 grid-cols-12">
@@ -27,12 +29,12 @@ function LandingPage() {
 
       {/* Login Button */}
       <div className="row-start-1 col-start-9 md:col-start-10 col-span-2 m-auto">
-        <Button>Login</Button>
+        <Button onClick={() => navigate("/login")}>Login</Button>
       </div>
 
       {/* Register Button */}
       <div className="row-start-1 col-start-11 col-span-2 m-auto">
-        <Button>Register</Button>
+        <Button onClick={() => navigate("/register")}>Register</Button>
       </div>
       <div className="text-center text-white row-start-6 col-span-full">
         <p className="text-center text-gray-500 text-sm mt-2">
