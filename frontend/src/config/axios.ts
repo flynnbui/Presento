@@ -7,7 +7,6 @@ const config: AxiosRequestConfig = {
 
 const api = axios.create(config);
 
-// Define types for the request interceptor function
 const handleBefore = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig> => {
   // CONFIG API NO TOKEN
   const noAuthEndpoints = ["/admin/auth/register", "/admin/auth/login"];
@@ -17,7 +16,7 @@ const handleBefore = (config: InternalAxiosRequestConfig): InternalAxiosRequestC
   if (requiresAuth) {
     const token = localStorage.getItem("token");
     if (token) {
-      config.headers = config.headers || {};
+      config.headers = config.headers;
       config.headers["Authorization"] = `Bearer ${token}`;
     } else {
       return Promise.reject("No token provided!");
@@ -27,7 +26,7 @@ const handleBefore = (config: InternalAxiosRequestConfig): InternalAxiosRequestC
 };
 
 // Define types for the error handling function
-const handleError = (error: AxiosError): Promise<never> => {
+const handleError = (error: AxiosError) => {
   console.error("Request Error: ", error);
   return Promise.reject(error);
 };
