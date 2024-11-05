@@ -17,23 +17,19 @@ function LandingPage() {
       >
         {/* Content Container */}
         <div className="flex flex-col col-start-2 col-span-5 space-y-4 justify-center">
-          <h1 className="font-bold text-2xl leading-10">Another yet powerful presentation tool</h1>
+          <h1 className="font-bold text-2xl leading-10">Another powerful presentation tool</h1>
           <h2 className="leading-7 text-gray-900">Create stunning presentations effortlessly with beautifully crafted slides, ready to captivate any audience.</h2>
 
           {/* Get Started Button */}
           <div className="flex">
-            <Button>Get started</Button>
+            <Button className="dark:bg-zinc-900 dark:text-zinc-50 shadow dark:hover:bg-zinc-900/90 " onClick={() => navigate("/dashboard")}>Get started</Button>
           </div>
         </div>
       </div>
 
       {/* Login Button */}
-      <div className="row-start-1 col-start-9 md:col-start-10 col-span-2 m-auto">
+      <div className="flex flex-row space-x-2 row-start-1 col-start-8 md:col-start-10 lg:col-start-11 col-span-2 my-auto ">
         <Button onClick={() => navigate("/login")}>Login</Button>
-      </div>
-
-      {/* Register Button */}
-      <div className="row-start-1 col-start-11 col-span-2 m-auto">
         <Button onClick={() => navigate("/register")}>Register</Button>
       </div>
       <div className="text-center text-white row-start-6 col-span-full">
