@@ -34,11 +34,6 @@ const data = {
       isActive: true,
     },
     {
-      title: "New Presentation",
-      url: "#",
-      icon: Plus,
-    },
-    {
       title: "Logout",
       url: "/logout",
       icon: LogOutIcon,
@@ -64,7 +59,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarGroupAction title="Add Presentation">
             </SidebarGroupAction>
           </SidebarMenuItem>
-        </SidebarMenu>
+        </SidebarMenu> 
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
