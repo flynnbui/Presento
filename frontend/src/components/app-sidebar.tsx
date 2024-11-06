@@ -2,7 +2,6 @@ import * as React from "react"
 import {
   Home,
   LogOutIcon,
-  Plus,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
