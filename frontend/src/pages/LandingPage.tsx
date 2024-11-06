@@ -27,7 +27,7 @@ function LandingPage() {
         </div>
       </div>
 
-      {/* Login Button */}
+      {/* Login/Register Button */}
       <div className="flex flex-row space-x-2 row-start-1 col-start-8 md:col-start-10 lg:col-start-11 col-span-2 my-auto ">
         <Button onClick={() => navigate("/login")}>Login</Button>
         <Button onClick={() => navigate("/register")}>Register</Button>

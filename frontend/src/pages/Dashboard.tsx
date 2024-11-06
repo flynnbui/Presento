@@ -10,7 +10,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { Outlet } from "react-router-dom"
+//import { Outlet } from "react-router-dom"
 
 function Dashboard() {
   return (
@@ -36,7 +36,7 @@ function Dashboard() {
             <div className="aspect-video rounded-xl bg-zinc-800/50" />
           </div>
           <div className="min-h-[100vh] flex-1 rounded-xl md:min-h-min bg-zinc-800/50">
-            <Outlet/>
+            {/* <Outlet/>*/}
           </div>
         </div>
       </SidebarInset>
