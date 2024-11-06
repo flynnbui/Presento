@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosError, InternalAxiosRequestConfig  } from "axios";
 
-const baseUrl = "localhost:5005";
+const baseUrl = "http://localhost:5005";
 const config: AxiosRequestConfig = {
   baseURL: baseUrl,
 };

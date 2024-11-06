@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from 'react';
 import validator from 'validator';
 import { useNavigate } from "react-router-dom";
-import { fetchBackend } from '@/helpers/serverHelpers';
 import { useContext, Context} from '../context'
+import { AlertRet } from "@/components/ui/alert"
+import api from '@/config/axios'
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ function RegisterPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [alert, setAlert] = useState<JSX.Element | null>(null);
 
   useEffect(() => {
     if (getters.loginState ) {
@@ -20,46 +22,46 @@ function RegisterPage() {
     }
   }, [getters.loginState, navigate])
 
-  function setUpUser(email: string, name: string) {
-    fetchBackend('/store', 'PUT', {
-      store: {
-        user: {email, name, presentations: []},
-        presentations: [],
-        history: []
-      }
-    })
-  }
-
-  function registerUser() {
-    if (name.length === 0) {
-      console.log("NAME")
-      return
-    }
-    if (!validator.isEmail(email)) {
-      console.log("EMAIL")
-      return
-    }
-    if (password.length === 0) {
-      console.log("PASSWORD")
-      return
-    }
-
-    fetchBackend('/admin/auth/register', 'POST', { email, password, name })
-      .then(response => {
-        if (!response.ok) {
-          console.log('Failed to register user');
-        } else {
-          response.json().then(data => {
-            localStorage.setItem("token", data.token)
-            setUpUser(email, name)
-            setters.setLogin(true)
-            console.log('User registered successfully:', getters.loginState);
-          })
-          .catch(err => {
-            console.log(err.message);
-          })
+  async function setUpUser(email: string, name: string) {
+    try{
+      await api.put('/store', {
+        store: {
+          user: {email, name, presentations: []},
+          presentations: [],
+          history: []
         }
       })
+    } catch (e) {
+      const error = e as { response: { data: { error: string } } }
+      setAlert(AlertRet("Store Error", error.response.data.error))
+    }
+  }
+
+  async function registerUser() {
+    if (name.length === 0) {
+      setAlert(AlertRet("Registration Error", "Enter your name"))
+      return
+    }
+    else if (!validator.isEmail(email)) {
+      setAlert(AlertRet("Registration Error", "Enter a valid email"))
+      return
+    }
+    else if (password.length === 0) {
+      setAlert(AlertRet("Registration Error", "Enter your password"))
+      return
+    }
+
+    try {
+      const response = await api.post('/admin/auth/register', { email, password, name})
+      if (response.status === 200) {
+        localStorage.setItem("token", response.data.token)
+        setters.setLogin(true)
+        setUpUser(email, name)
+      }
+    } catch (e) {
+      const error = e as { response: { data: { error: string } } }
+      setAlert(AlertRet("Registration Error", error.response.data.error))
+    }
   }
   return (
     <>
@@ -69,9 +71,12 @@ function RegisterPage() {
       <div className="h-full col-start-1 col-span-8 row-start-1 row-span-10">
 
         <div className="h-full grid grid-rows-12 grid-cols-12">
-          <div className="col-start-4 col-span-6 row-start-3 row-span-1">
+          <div className="col-start-4 col-span-6 row-start-2 row-span-1">
             <h1 className="text-2xl font-bold text-white m-auto text-center">P r e s t o</h1>
           </div>
+
+          {/* Alert section */}
+          {alert && <div className='col-start-4 col-span-6 row-start-3 row-span-1'>{alert}</div>}
 
           <LoginRegisterTextField
             placeholder='Name'
@@ -89,7 +94,7 @@ function RegisterPage() {
             type="password"
             onChange={(password) => setPassword(password.target.value)}
           />
-
+        
           <Button className="dark:bg-gray-300 shadow dark:hover:bg-zinc-500 col-start-4 col-span-6 row-start-11 row-span-1" onClick={() => registerUser()}>Register</Button>
         </div>
       </div>

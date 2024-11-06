@@ -1,32 +1,3 @@
-const PORT = 5005
-
-export function fetchBackend(route: string, method: string, option?: Object) {
-    const token = localStorage.getItem('token')
-
-    const headers = new Headers({
-        'Content-Type': 'application/json',
-    });
-    if (token !== null) {
-        headers.append('Authorization', token);
-    }
-    return fetch(`http://127.0.0.1:${PORT}${route}`, {
-        method: method,
-        body: method == "GET" ? undefined : JSON.stringify(option),
-        headers: headers
-    })
-}
-
-export function fetchStore() {
-    return fetchBackend('/store', 'GET')
-            .then(response => {
-                if (!response.ok) {
-                    console.log('Failed to fetch store');
-                } else {
-                    return response.json()
-                }
-            })
-}
-
 interface User {
     email: string,
     name: string, 
