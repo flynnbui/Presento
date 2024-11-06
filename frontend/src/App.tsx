@@ -18,7 +18,6 @@ function App() {
                 <RouterProvider router={router} />
             </Context.Provider>
         </div>
-        
     );
 }
 
