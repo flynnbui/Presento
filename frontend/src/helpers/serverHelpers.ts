@@ -34,12 +34,12 @@ interface History {
     slides: Slide[]
 }
 
-export function updateStore(user: User, presentations: Presentation[], history: History[]) {
-    fetchBackend('/store', 'PUT', {
-        store: {
-          user: user,
-          presentations: presentations,
-          history: history
-        }
-    })
-}
+// export function updateStore(user: User, presentations: Presentation[], history: History[]) {
+//     fetchBackend('/store', 'PUT', {
+//         store: {
+//           user: user,
+//           presentations: presentations,
+//           history: history
+//         }
+//     })
+// }
