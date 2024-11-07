@@ -9,6 +9,7 @@ function logoutPage() {
     useEffect(() => {
         localStorage.removeItem('token')
         setters.setLogin(false)
+        setters.setUserData(undefined)
         navigate('/login')
     }, [getters.loginState, navigate])
     return (
