@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/sidebar"
 import { useNavigate } from "react-router-dom"
 import { Button } from "./ui/button"
+import { NewDialog } from "./newdialog"
 
 const data = {
   user: {
@@ -49,16 +50,24 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <Button className="grid flex-1 text-left text-sm leading-tight" onClick={() => { navigate("/dashboard") }}>
+              <button className="grid flex-1 text-left text-sm leading-tight" onClick={() => { navigate("/dashboard") }}>
                 <div>
                   <span className="truncate font-semibold">Presto</span>
                 </div>
-              </Button>
+              </button>
+            </SidebarMenuButton>
+            <SidebarMenuButton size="lg" asChild>
+              <NewDialog Button=
+                {
+                  <Button className="grid w-full text-left text-sm leading-tight">
+                    <span className="truncate font-semibold">New Presentation</span>
+                  </Button>
+                } />
             </SidebarMenuButton>
             <SidebarGroupAction title="Add Presentation">
             </SidebarGroupAction>
           </SidebarMenuItem>
-        </SidebarMenu> 
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
