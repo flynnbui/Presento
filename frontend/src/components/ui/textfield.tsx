@@ -28,6 +28,10 @@ function LoginRegisterTextField({ placeholder, className, type, onChange }: Logi
           },
           '& input': {
             color: '#E5E7EB',
+            '&:-webkit-autofill': {
+              WebkitBoxShadow: '0 0 0 1000px rgb(24,24,27) inset',
+              WebkitTextFillColor: 'white',
+            },
           },
         },
         '& .MuiInputLabel-root': {
