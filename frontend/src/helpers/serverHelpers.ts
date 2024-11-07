@@ -50,4 +50,4 @@ interface Store {
 //     })
 // }
 
-export type { Store }
+export type { Store, Presentation }

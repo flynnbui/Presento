@@ -5,6 +5,7 @@ import validator from 'validator';
 import { useNavigate } from "react-router-dom";
 import { useContext, Context} from '../context'
 import { AlertRet } from "@/components/ui/alert"
+import { Store } from '@/helpers/serverHelpers'
 import api from '@/config/axios'
 
 function LoginPage() {
@@ -33,6 +34,8 @@ function LoginPage() {
       const response = await api.post('/admin/auth/login', { email, password })
       localStorage.setItem("token", response.data.token)
       setters.setLogin(true)
+      const data: Store = (await api.get('/store')).data.store
+      setters.setUserData(data)
     } catch (e) {
       const error = e as { response: { data: { error: string } } }
       setAlert(AlertRet("Login Error", error.response.data.error))

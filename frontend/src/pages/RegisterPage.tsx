@@ -5,6 +5,7 @@ import validator from 'validator';
 import { useNavigate } from "react-router-dom";
 import { useContext, Context} from '../context'
 import { AlertRet } from "@/components/ui/alert"
+import { Store } from '@/helpers/serverHelpers'
 import api from '@/config/axios'
 
 function RegisterPage() {
@@ -15,7 +16,6 @@ function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [alert, setAlert] = useState<JSX.Element | null>(null);
-
   useEffect(() => {
     if (getters.loginState ) {
       navigate('/dashboard')
@@ -24,13 +24,13 @@ function RegisterPage() {
 
   async function setUpUser(email: string, name: string) {
     try{
-      await api.put('/store', {
-        store: {
+      const data: Store = {
           user: {email, name, presentations: []},
           presentations: [],
           history: []
-        }
-      })
+      }
+      await api.put('/store', {store: data})
+      setters.setUserData(data)
     } catch (e) {
       const error = e as { response: { data: { error: string } } }
       setAlert(AlertRet("Store Error", error.response.data.error))
