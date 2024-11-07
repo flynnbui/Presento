@@ -14,7 +14,9 @@ import React, { useState } from "react"
 
 export function NewDialog(props: { Button: React.ReactElement }) {
   const [name, setName] = useState("New Presentation");
-  const handleSubmit = {};
+  const handleSubmit = {
+    
+  };
   return (
     <Dialog>
       <DialogTrigger asChild>
