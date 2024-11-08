@@ -1,5 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar"
 import { NewDialog } from "@/components/newdialog"
+import PresentationList from "@/components/presentation-list"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -41,8 +42,8 @@ function Dashboard() {
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
             <div className="aspect-video rounded-xl bg-zinc-800/50" />
           </div>
-          <div className="min-h-[100vh] flex-1 rounded-xl md:min-h-min bg-zinc-800/50">
-            {/* <Outlet/>*/}
+          <div className="overflow-hidden min-h-[100vh] flex-1 rounded-xl md:min-h-min bg-zinc-800/50">
+            <PresentationList/>
           </div>
         </div>
       </SidebarInset>
