@@ -1,6 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar"
 import { NewDialog } from "@/components/newdialog"
-import PresentationList from "@/components/presentation-list"
+import  { PresentationCards } from "@/components/presentation-list"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,9 +13,28 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import api from "@/config/axios"
+import { Context, useContext } from "@/context"
+import { Store } from "@/helpers/serverHelpers"
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 //import { Outlet } from "react-router-dom"
 
 function Dashboard() {
+  const { getters, setters } = useContext(Context)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const setUserData = async () => {
+      if (getters.loginState) {
+        setters.setLogin(true)
+        const data: Store = (await api.get('/store')).data.store
+        setters.setUserData(data)
+      }
+    }
+  
+    setUserData()
+    }, [getters.loginState, navigate])
   const outerButton = <Button>New Presentation</Button>;
   return (
     <div>
@@ -42,8 +61,8 @@ function Dashboard() {
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
             <div className="aspect-video rounded-xl bg-zinc-800/50" />
           </div>
-          <div className="flex-1 rounded-xl md:min-h-min bg-zinc-800/50">
-            <PresentationList />
+          <div className="overflow-auto max-h-full h-full flex flex-col gap-4">
+            <PresentationCards />
           </div>
         </div>
       </SidebarInset>
