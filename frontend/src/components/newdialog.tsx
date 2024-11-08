@@ -13,19 +13,33 @@ import { Label } from "@/components/ui/label"
 import { postNewThread } from "@/services/presentationService"
 import React, { useState } from "react"
 import { Context, useContext } from "@/context";
+import { message } from "antd";
 
 export function NewDialog(props: { Button: React.ReactElement }) {
   const [name, setName] = useState("New Presentation");
+  const [open, setOpen] = useState(false);
+
   const context = useContext(Context);
-  const handleSubmit = () => {
-    postNewThread(name, context);
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Prevent form submission
+    try {
+      await postNewThread(name, context);
+      message.success("Success!");
+      setOpen(false);
+    } catch (e) {
+      const error = e as { response: { data: { error: string } } };
+      console.log("Error when creating new thread: ", error);
+      message.error(`Error: ${error.response?.data?.error || 'Unknown error occurred'}`);
+      setOpen(false);
+    }
   };
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
       {React.cloneElement(props.Button)}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
+      <form onSubmit={handleSubmit}>
         <DialogHeader>
           <DialogTitle>New presentation</DialogTitle>
           <DialogDescription>
@@ -46,8 +60,9 @@ export function NewDialog(props: { Button: React.ReactElement }) {
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit" onClick={() => handleSubmit()}>Create</Button>
+          <Button type="submit">Create</Button>
         </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

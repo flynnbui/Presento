@@ -5,7 +5,6 @@ import { v4 as randomUUID } from "uuid";
 
 async function postNewThread(name: string, context: ContextType) {
     const { getters, setters } = context
-    try {
         // Fetch current data
         const currentStore: Store | undefined = getters.userData;
         const newPresentation = {
@@ -23,13 +22,12 @@ async function postNewThread(name: string, context: ContextType) {
             const response = await api.put('/store', { store: updatedStore});
             if (response && response.data) {
                 setters.setUserData(updatedStore);
+                return "Success";
             }
         } else {
+            console.log(currentStore);
             console.error('Error updating store: userData does not exist');
         }
-    } catch (error) {
-        console.error('Error updating store:', error);
-    }
 }
 
 export { postNewThread }
