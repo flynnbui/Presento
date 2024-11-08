@@ -10,12 +10,15 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { postNewThread } from "@/services/presentationService"
 import React, { useState } from "react"
+import { Context, useContext } from "@/context";
 
 export function NewDialog(props: { Button: React.ReactElement }) {
   const [name, setName] = useState("New Presentation");
-  const handleSubmit = {
-    
+  const context = useContext(Context);
+  const handleSubmit = () => {
+    postNewThread(name, context);
   };
   return (
     <Dialog>
@@ -43,7 +46,7 @@ export function NewDialog(props: { Button: React.ReactElement }) {
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit" onSubmit={() => handleSubmit}>Create</Button>
+          <Button type="submit" onClick={() => handleSubmit()}>Create</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

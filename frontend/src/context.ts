@@ -1,7 +1,7 @@
 import React, { createContext, Dispatch, SetStateAction } from 'react'
 import { Store } from '@/helpers/serverHelpers'
 
-interface ContextType {
+export interface ContextType {
     getters: {
       loginState: boolean;
       userData?: Store;

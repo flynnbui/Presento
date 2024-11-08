@@ -5,19 +5,19 @@ interface User {
 }
 
 interface Presentation {
-    pId: number,
+    pId: string,
     history: number[],
     slides: Slide[]
 }
 
 interface Slide {
-    sId: number,
+    sId: string,
     img: string,
     elements: Element[]
 }
 
 interface Element {
-    eId: number,
+    eId: string,
     zIndex: number,
     x: number,
     y: number,
@@ -29,7 +29,7 @@ interface Element {
 }
 
 interface History {
-    hId: number,
+    hId: string,
     timestamp: number,
     slides: Slide[]
 }
