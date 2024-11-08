@@ -5,9 +5,11 @@ interface User {
 }
 
 interface Presentation {
+    name: string,
     pId: string,
     history: number[],
-    slides: Slide[]
+    slides: Slide[],
+    thumbnail: string;
 }
 
 interface Slide {
