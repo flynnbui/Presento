@@ -25,6 +25,7 @@ async function postNewThread(name: string, context: ContextType) {
                 setters.setUserData(updatedStore);
             }
         } else {
+            console.log(currentStore);
             console.error('Error updating store: userData does not exist');
         }
     } catch (error) {
