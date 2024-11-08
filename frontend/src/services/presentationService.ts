@@ -1,11 +1,10 @@
 import api from "@/config/axios";
-import { Context } from "@/context";
+import { ContextType } from "@/context";
 import { Store } from "@/helpers/serverHelpers";
-import { randomUUID } from "crypto";
-import { useContext } from "react";
+import { v4 as randomUUID } from "uuid";
 
-async function postNewThread(name: string) {
-    const { getters, setters } = useContext(Context);
+async function postNewThread(name: string, context: ContextType) {
+    const { getters, setters } = context
     try {
         // Fetch current data
         const currentStore: Store | undefined = getters.userData;
