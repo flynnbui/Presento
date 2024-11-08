@@ -1,5 +1,5 @@
 import api from "@/config/axios";
-import { ContextType } from "@/context";
+import { ContextType } from "../context";
 import { Store } from "@/helpers/serverHelpers";
 import { v4 as randomUUID } from "uuid";
 
@@ -10,19 +10,19 @@ async function postNewThread(name: string, context: ContextType) {
         const currentStore: Store | undefined = getters.userData;
         const newPresentation = {
             name: name,
-            pid: randomUUID(),
+            pId: randomUUID(),
             history: [],
             slides: []
         };
         if (currentStore) {
-            const updatedStore = {
+            const updatedStore: Store = {
                 ...currentStore,
                 presentations: [...currentStore.presentations, newPresentation]
             };
     
-            const response = await api.put('/store', updatedStore);
+            const response = await api.put('/store', { store: updatedStore});
             if (response && response.data) {
-                setters.setUserData(response.data);
+                setters.setUserData(updatedStore);
             }
         } else {
             console.error('Error updating store: userData does not exist');
