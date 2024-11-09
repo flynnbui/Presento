@@ -5,6 +5,7 @@ import LogoutPage from "../pages/LogoutPage";
 import RegisterPage from "../pages/RegisterPage";
 import Dashboard from "@/pages/Dashboard";
 import { PresentationPage } from "@/pages/PresentationPage";
+import RevealEditor from "@/pages/Test";
 
 export const router = createBrowserRouter([
     {
@@ -31,4 +32,8 @@ export const router = createBrowserRouter([
         path: "/presentation",
         element: <PresentationPage/>,
     },
+    {
+        path: "/test",
+        element: <RevealEditor/>
+    }
 ]);

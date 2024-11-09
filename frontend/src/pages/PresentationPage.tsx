@@ -16,8 +16,7 @@ import {
 import api from "@/config/axios";
 import { Context } from "@/context";
 import { Store } from "@/helpers/serverHelpers";
-import { Code, FileType2, FileVideo, Home, Image, Layers, LayersIcon, StickyNote } from "lucide-react";
-import { title } from "process";
+import { Code, FileType2, FileVideo, Home, Image, StickyNote } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -68,6 +67,7 @@ export function PresentationPage() {
   const [user, setUser] = useState<User>({ name: "", email: "", avatar: "" });
 
 
+
   useEffect(() => {
     const setUserData = async () => {
       if (getters.loginState) {
@@ -82,6 +82,7 @@ export function PresentationPage() {
       }
     })
   }, [getters.loginState, getters.userData, navigate, setters])
+
 
   return (
     <div className="h-screen w-screen \ overflow-hidden">
@@ -109,17 +110,16 @@ export function PresentationPage() {
           </header>
           <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <div className="w-full max-w-[calc(100vw-100px)] flex flex-nowrap overflow-x-auto space-x-4 h-[200px] scrollbar-hide">
-              <div className="aspect-video min-w-[250px] max-w-[300px] rounded-xl bg-white" />
-              <div className="aspect-video min-w-[250px] max-w-[300px] rounded-xl bg-white" />
-              <div className="aspect-video min-w-[250px] max-w-[300px] rounded-xl bg-white" />
-              <div className="aspect-video min-w-[250px] max-w-[300px] rounded-xl bg-white" />
-              <div className="aspect-video min-w-[250px] max-w-[300px] rounded-xl bg-white" />
-              <div className="aspect-video min-w-[250px] max-w-[300px] rounded-xl bg-white" />
-              <div className="aspect-video min-w-[250px] max-w-[300px] rounded-xl bg-white" />
-              <div className="aspect-video min-w-[250px] max-w-[300px] rounded-xl bg-white" />
-              <div className="aspect-video min-w-[250px] max-w-[300px] rounded-xl bg-white" />
-              <div className="aspect-video min-w-[250px] max-w-[300px] rounded-xl bg-white" />
-              <div className="aspect-video min-w-[250px] max-w-[300px] rounded-xl bg-white" />
+              <div className="aspect-video max-w-[300px] rounded-xl bg-white" />
+              <div className="aspect-video max-w-[300px] rounded-xl bg-white" />
+              <div className="aspect-video max-w-[300px] rounded-xl bg-white" />
+              <div className="aspect-video max-w-[300px] rounded-xl bg-white" />
+              <div className="aspect-video max-w-[300px] rounded-xl bg-white" />
+              <div className="aspect-video max-w-[300px] rounded-xl bg-white" />
+              <div className="aspect-video max-w-[300px] rounded-xl bg-white" />
+              <div className="aspect-video max-w-[300px] rounded-xl bg-white" />
+              <div className="aspect-video max-w-[300px] rounded-xl bg-white" />
+              <div className="aspect-video max-w-[300px] rounded-xl bg-white" />
             </div>
             <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min bg-white" />
           </div>
