@@ -2,16 +2,14 @@ import { Context, useContext } from "@/context"
 import { useEffect, useState } from "react"
 import { NavigateFunction, useNavigate } from "react-router-dom"
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer"
-import { Button } from '@/components/ui/button'
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { ChevronsUpDown } from "lucide-react"
 
 export type PresentationCard = {
   id: string
@@ -20,41 +18,34 @@ export type PresentationCard = {
   slideNumber: number
 }
 
-function PresentationDrawer(card: JSX.Element, cardInfo: PresentationCard, navigate: NavigateFunction) {
+function PresentationMenu(icon: JSX.Element, cardInfo: PresentationCard) {
   return (
-    <Drawer key={cardInfo.id}>
-      <DrawerTrigger>{card}</DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>{cardInfo.name}</DrawerTitle>
-          <DrawerDescription>{cardInfo.slideNumber} {(cardInfo.slideNumber == 1 ? "slide" : "slides")}</DrawerDescription>
-        </DrawerHeader>
-        <DrawerFooter>
-          <DrawerClose className="flex flex-row gap-5 justify-center">
-            <Button onClick={() => navigate(`presentation/${cardInfo.id}`)}>View</Button>
-            <Button>Save</Button>
-            <Button variant="outline">Close</Button>
-          </DrawerClose>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
-  )
+    <DropdownMenu>
+      <DropdownMenuTrigger className="focus:outline-none">{icon}</DropdownMenuTrigger>
+      <DropdownMenuContent onClick={(event) => {event.stopPropagation()}} >
+        <DropdownMenuLabel>Edit/Delete</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="focus:bg-zinc-200">Edit Presentation Name {cardInfo.name} IGNORE THIS U IDIOT</DropdownMenuItem>
+        <DropdownMenuItem className="focus:bg-zinc-200">Edit Presentation Thumbnail</DropdownMenuItem>
+        <DropdownMenuItem className="focus:bg-zinc-200" onClick={() => {}}>Delete Presentation</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>)
 }
 
 function dataToCard(data: PresentationCard[], navigate: NavigateFunction, name?: string, ) {
 
   let content: JSX.Element[] = data.map(c => {
     return (
-      PresentationDrawer(
-      <div className="w-full aspect-[2/1] rounded-xl bg-zinc-800/50 flex flex-row hover:shadow-[inset_0_0_15px_5px_rgba(0,149,246,0.5)] transition-shadow duration-300">
+      <div key={c.id} className="w-full aspect-[2/1] rounded-xl bg-zinc-800/50 flex flex-row hover:shadow-[inset_0_0_15px_5px_rgba(0,149,246,0.5)] transition-shadow duration-300"
+        onClick={() => navigate(`presentation/${c.id}`)}>
         <div className="h-[100%] w-[50%] bg-gray-700"></div>
-        <div className="h-[100%] w-[50%] flex flex-col justify-start">
-          <div className="text-white/80 text-wrap text-1xl ml-4 mt-3">{c.name}</div>
-          <div className="text-white/60 text-wrap text-1xl ml-4">{c.slideNumber} slides</div>
-          <div className="text-white/80 text-wrap text-sm mt-auto pb-5 ml-auto mr-5">Owned by: {name? name : "Unknown user"}</div>
+        <div className="h-[100%] w-[50%] flex flex-col justify-start overflow-hidden">
+          <div className="text-white/80 ml-auto mt-[5%] mr-[5%]">{PresentationMenu(<ChevronsUpDown className="hover:bg-zinc-700 hover:rounded"/>, c, navigate)}</div>
+          <div className="text-white/80 text-wrap sm:text-sm md:text-1xl ml-4 text-center my-auto">{c.name}</div>
+          <div className="text-white/60 text-wrap sm:text-sm md:text-1xl ml-4 text-center">{c.slideNumber} slides</div>
+          <div className="text-white/80 text-wrap sm:text-xs md:text-sm mt-auto pb-[5%] ml-auto mr-[5%] italic">Creator: {name? name : "Unknown user"}</div>
         </div>
-      </div>, c, navigate)
-    )
+      </div>)
   })
   return(
     content
