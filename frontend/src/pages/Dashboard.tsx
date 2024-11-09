@@ -1,5 +1,5 @@
 import { AppSidebar } from "@/components/app-sidebar"
-import { NewDialog } from "@/components/newdialog"
+import { NewDialog } from "@/components/new-dialog"
 import  { PresentationCards } from "@/components/presentation-list"
 import {
   Breadcrumb,
