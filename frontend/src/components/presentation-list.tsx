@@ -10,6 +10,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ChevronsUpDown } from "lucide-react"
+import { Store } from "@/helpers/serverHelpers"
+import { deletePresentation } from "@/services/presentationService"
 
 export type PresentationCard = {
   id: string
@@ -18,7 +20,7 @@ export type PresentationCard = {
   slideNumber: number
 }
 
-function PresentationMenu(icon: JSX.Element, cardInfo: PresentationCard) {
+function PresentationMenu(icon: JSX.Element, cardInfo: PresentationCard, setUserData: React.Dispatch<React.SetStateAction<Store | undefined>>, userData?: Store) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="focus:outline-none">{icon}</DropdownMenuTrigger>
@@ -27,12 +29,12 @@ function PresentationMenu(icon: JSX.Element, cardInfo: PresentationCard) {
         <DropdownMenuSeparator />
         <DropdownMenuItem className="focus:bg-zinc-200">Edit Presentation Name {cardInfo.name} IGNORE THIS U IDIOT</DropdownMenuItem>
         <DropdownMenuItem className="focus:bg-zinc-200">Edit Presentation Thumbnail</DropdownMenuItem>
-        <DropdownMenuItem className="focus:bg-zinc-200" onClick={() => {}}>Delete Presentation</DropdownMenuItem>
+        <DropdownMenuItem className="focus:bg-zinc-200" onClick={() => {deletePresentation(cardInfo.id, setUserData, userData)}}>Delete Presentation</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>)
 }
 
-function dataToCard(data: PresentationCard[], navigate: NavigateFunction, name?: string) {
+function dataToCard(data: PresentationCard[], navigate: NavigateFunction, setUserData: React.Dispatch<React.SetStateAction<Store | undefined>>, userData?: Store, name?: string) {
 
   let content: JSX.Element[] = data.map(c => {
     return (
@@ -40,7 +42,7 @@ function dataToCard(data: PresentationCard[], navigate: NavigateFunction, name?:
         onClick={() => navigate(`presentation/${c.id}`)}>
         <div className="h-[100%] w-[50%] bg-gray-700"></div>
         <div className="h-[100%] w-[50%] flex flex-col justify-start overflow-hidden">
-          <div className="text-white/80 ml-auto mt-[5%] mr-[5%]">{PresentationMenu(<ChevronsUpDown className="hover:bg-zinc-700 hover:rounded"/>, c)}</div>
+          <div className="text-white/80 ml-auto mt-[5%] mr-[5%]">{PresentationMenu(<ChevronsUpDown className="hover:bg-zinc-700 hover:rounded"/>, c, setUserData, userData)}</div>
           <div className="text-white/80 text-wrap sm:text-sm md:text-1xl ml-4 text-center my-auto">{c.name}</div>
           <div className="text-white/60 text-wrap sm:text-sm md:text-1xl ml-4 text-center">{c.slideNumber} slides</div>
           <div className="text-white/80 text-wrap sm:text-xs md:text-sm mt-auto pb-[5%] ml-auto mr-[5%] italic">Creator: {name? name : "Unknown user"}</div>
@@ -56,14 +58,17 @@ export function PresentationCards() {
   const navigate = useNavigate()
   const [data, setData] = useState<PresentationCard[]>([])
   const [cards, setCards] = useState<JSX.Element[]>([])
-  const { getters } = useContext(Context)
+  const { getters, setters } = useContext(Context)
+  const userData = getters.userData
   const presentationData = getters.userData?.presentations
   const userName = getters.userData?.user.name
+  const setUserData = setters.setUserData
+
   useEffect(() =>  {
     setData(presentationData ? presentationData?.map(p => ({id: p.pId, thumbnail: p.thumbnail, name: p.name,  slideNumber: p.slides.length})) : [])
   }, [presentationData])
   useEffect(() =>  {
-    setCards(dataToCard(data, navigate, userName))
+    setCards(dataToCard(data, navigate, setUserData, userData, userName))
   }, [data])
 
   return (
