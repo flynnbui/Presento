@@ -32,7 +32,7 @@ function PresentationMenu(icon: JSX.Element, cardInfo: PresentationCard) {
     </DropdownMenu>)
 }
 
-function dataToCard(data: PresentationCard[], navigate: NavigateFunction, name?: string, ) {
+function dataToCard(data: PresentationCard[], navigate: NavigateFunction, name?: string) {
 
   let content: JSX.Element[] = data.map(c => {
     return (
@@ -40,7 +40,7 @@ function dataToCard(data: PresentationCard[], navigate: NavigateFunction, name?:
         onClick={() => navigate(`presentation/${c.id}`)}>
         <div className="h-[100%] w-[50%] bg-gray-700"></div>
         <div className="h-[100%] w-[50%] flex flex-col justify-start overflow-hidden">
-          <div className="text-white/80 ml-auto mt-[5%] mr-[5%]">{PresentationMenu(<ChevronsUpDown className="hover:bg-zinc-700 hover:rounded"/>, c, navigate)}</div>
+          <div className="text-white/80 ml-auto mt-[5%] mr-[5%]">{PresentationMenu(<ChevronsUpDown className="hover:bg-zinc-700 hover:rounded"/>, c)}</div>
           <div className="text-white/80 text-wrap sm:text-sm md:text-1xl ml-4 text-center my-auto">{c.name}</div>
           <div className="text-white/60 text-wrap sm:text-sm md:text-1xl ml-4 text-center">{c.slideNumber} slides</div>
           <div className="text-white/80 text-wrap sm:text-xs md:text-sm mt-auto pb-[5%] ml-auto mr-[5%] italic">Creator: {name? name : "Unknown user"}</div>
