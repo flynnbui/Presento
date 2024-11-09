@@ -122,7 +122,7 @@ app.put(
 
 
 // For vercel deployment
-const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
+const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.6.3/swagger-ui.min.css";
 const swaggerOptions = {
   customCssUrl: CSS_URL
 };
