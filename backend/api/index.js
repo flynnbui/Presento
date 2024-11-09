@@ -101,12 +101,11 @@ app.put(
 /***************************************************************
                        Running Server
 ***************************************************************/
-
-app.get("/", (req, res) => res.redirect("/docs"));
-
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 // For local deployment
+// app.get("/", (req, res) => res.redirect("/docs"));
+
+// app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 // const configData = JSON.parse(
 //   fs.readFileSync("../frontend/backend.config.json")
@@ -123,4 +122,11 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 // For vercel deployment
+const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
+const swaggerOptions = {
+  customCssUrl: CSS_URL
+};
+
+app.get("/", (req, res) => res.redirect("/docs"));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(null, swaggerOptions));
 export default app;
