@@ -128,5 +128,5 @@ const swaggerOptions = {
 };
 
 app.get("/", (req, res) => res.redirect("/docs"));
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(null, swaggerOptions));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
 export default app;
