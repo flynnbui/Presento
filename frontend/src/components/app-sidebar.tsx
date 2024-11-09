@@ -1,8 +1,4 @@
 import * as React from "react"
-import {
-  Home,
-  LogOutIcon,
-} from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
@@ -10,42 +6,32 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroupAction,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { useNavigate } from "react-router-dom"
-import { Button } from "./ui/button"
-import { NewDialog } from "./new-dialog"
+import { LucideIcon } from "lucide-react"
 
-const data = {
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   user: {
-    name: "Flynn",
-    email: "flynn@example.com",
-    avatar: "./assets/1.png",
-  },
-  navMain: [
-    {
-      title: "Home",
-      url: "/home",
-      icon: Home,
-      isActive: true,
-    },
-    {
-      title: "Logout",
-      url: "/logout",
-      icon: LogOutIcon,
-    },
-  ],
-
+    name: string;
+    email: string;
+    avatar: string;
+  };
+  navMain: {
+    title: string;
+    url: string;
+    icon: LucideIcon;
+    isActive?: boolean;
+  }[];
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ user, navMain, ...props }: AppSidebarProps) {
   const navigate = useNavigate();
   return (
-    <Sidebar variant="inset" {...props}>
+    <Sidebar variant="inset" {...props} collapsible="icon" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -56,24 +42,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </div>
               </button>
             </SidebarMenuButton>
-            <SidebarMenuButton size="lg" asChild>
-              <NewDialog Button=
-                {
-                  <Button className="grid w-full text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">New Presentation</span>
-                  </Button>
-                } />
-            </SidebarMenuButton>
-            <SidebarGroupAction title="Add Presentation">
-            </SidebarGroupAction>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
     </Sidebar>
   )

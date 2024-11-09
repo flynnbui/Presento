@@ -15,14 +15,37 @@ import {
 } from "@/components/ui/sidebar"
 import api from "@/config/axios"
 import { Context, useContext } from "@/context"
-import { Store } from "@/helpers/serverHelpers"
-import { useEffect } from "react"
+import { Store } from "@/helpers/serverHelpers"   
+import { Home, LogOutIcon } from "lucide-react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-//import { Outlet } from "react-router-dom"
+
+interface User {
+  name: string;
+  email: string;
+  avatar: string;
+}
+const navMain = [
+  {
+    title: "Home",
+    url: "/home",
+    icon: Home,
+    isActive: true,
+  },
+  {
+    title: "Logout",
+    url: "/logout",
+    icon: LogOutIcon,
+  },
+];
+
 
 function Dashboard() {
-  const { getters, setters } = useContext(Context)
+  
   const navigate = useNavigate()
+  const { getters, setters } = useContext(Context)
+  const [user, setUser] = useState<User>({name: "", email: "", avatar: ""});
+ 
 
   useEffect(() => {
     const setUserData = async () => {
@@ -32,14 +55,20 @@ function Dashboard() {
         setters.setUserData(data)
       }
     }
-  
-    setUserData()
-    }, [getters.loginState, navigate])
+    setUserData().then(() => {
+        if (getters.userData) {
+            setUser({name: getters.userData.user.name, email: getters.userData.user.email, avatar: ""})
+        }
+    })
+    }, [getters.loginState, getters.userData, navigate, setters])
+
+    
+    
   const outerButton = <Button>New Presentation</Button>;
   return (
     <div>
       <SidebarProvider className="max-h-screen">
-        <AppSidebar />
+      <AppSidebar user={user} navMain={navMain} />
         <SidebarInset>
           <header className="flex h-16 shrink-0 items-center gap-2">
             <div className="flex items-center gap-2 px-4">

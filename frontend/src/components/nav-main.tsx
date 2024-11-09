@@ -1,12 +1,11 @@
-"use client"
+"use client";
 
-import { ChevronRight, type LucideIcon } from "lucide-react"
-
+import { ChevronRight, type LucideIcon } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+} from "@/components/ui/collapsible";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -17,22 +16,22 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/components/ui/sidebar"
-import { useNavigate } from "react-router-dom"
+} from "@/components/ui/sidebar";
+import { useNavigate } from "react-router-dom";
 
 export function NavMain({
   items,
 }: {
   items: {
-    title: string
-    url: string
-    icon: LucideIcon
-    isActive?: boolean
+    title: string;
+    url: string;
+    icon: LucideIcon;
+    isActive?: boolean;
     items?: {
-      title: string
-      url: string
-    }[]
-  }[]
+      title: string;
+      url: string;
+    }[];
+  }[];
 }) {
   const navigate = useNavigate();
 
@@ -62,7 +61,7 @@ export function NavMain({
                       {item.items?.map((subItem) => (
                         <SidebarMenuSubItem key={subItem.title}>
                           <SidebarMenuSubButton asChild>
-                            <button onClick={ () => {navigate(subItem.url)}}>
+                            <button onClick={() => navigate(subItem.url)}>
                               <span>{subItem.title}</span>
                             </button>
                           </SidebarMenuSubButton>
@@ -77,5 +76,5 @@ export function NavMain({
         ))}
       </SidebarMenu>
     </SidebarGroup>
-  )
+  );
 }
