@@ -1,6 +1,6 @@
 import { Context, useContext } from "@/context"
 import { useEffect, useState } from "react"
-//import { useNavigate } from "react-router-dom"
+import { NavigateFunction, useNavigate } from "react-router-dom"
 
 export type PresentationCard = {
   id: string
@@ -9,13 +9,12 @@ export type PresentationCard = {
   slideNumber: number
 }
 
-function dataToCard(data: PresentationCard[], name?: string) {
-  //const navigate = useNavigate()
-  //http://localhost:3000/
+function dataToCard(data: PresentationCard[], navigate: NavigateFunction, name?: string, ) {
 
   let content: JSX.Element[] = data.map(c => {
     return (
-      <div className="w-full aspect-[2/1] rounded-xl bg-zinc-800/50 flex flex-row">
+      <div className="w-full aspect-[2/1] rounded-xl bg-zinc-800/50 flex flex-row hover:shadow-[inset_0_0_15px_5px_rgba(0,149,246,0.5)] transition-shadow duration-300"
+        onClick={() => navigate(`/presentation/${c.id}`)}>
         <div className="h-[100%] w-[50%] bg-gray-700"></div>
         <div className="h-[100%] w-[50%] flex flex-col justify-start">
           <div className="text-white/80 text-wrap text-1xl ml-4 mt-3">{c.name}</div>
@@ -31,6 +30,7 @@ function dataToCard(data: PresentationCard[], name?: string) {
 }
 
 export function PresentationCards() {
+  const navigate = useNavigate()
   const [data, setData] = useState<PresentationCard[]>([])
   const [cards, setCards] = useState<JSX.Element[]>([])
   const { getters } = useContext(Context)
@@ -40,7 +40,7 @@ export function PresentationCards() {
     setData(presentationData ? presentationData?.map(p => ({id: p.pId, thumbnail: p.thumbnail, name: p.name,  slideNumber: p.slides.length})) : [])
   }, [presentationData])
   useEffect(() =>  {
-    setCards(dataToCard(data, userName))
+    setCards(dataToCard(data, navigate, userName, ))
   }, [data])
 
   return (
