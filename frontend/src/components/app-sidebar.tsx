@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/sidebar"
 import { useNavigate } from "react-router-dom"
 import { Button } from "./ui/button"
-import { NewDialog } from "./newdialog"
+import { NewDialog } from "./new-dialog"
 
 const data = {
   user: {
