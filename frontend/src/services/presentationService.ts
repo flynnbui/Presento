@@ -31,4 +31,16 @@ async function postNewThread(name: string, context: ContextType) {
         }
 }
 
-export { postNewThread }
+async function deletePresentation(pId: string, setUserData: React.Dispatch<React.SetStateAction<Store | undefined>>, userData?: Store) {
+    if (userData) {
+        const updatedPresentations: Presentation[] = userData.presentations.filter(presentation => presentation.pId !== pId);
+        const updatedUserData: Store = {
+            ...userData,
+            presentations: updatedPresentations
+        }
+        setUserData(updatedUserData);
+        await api.put('/store', {store: updatedUserData})
+    }
+}
+
+export { postNewThread, deletePresentation }
