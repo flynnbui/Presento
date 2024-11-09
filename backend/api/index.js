@@ -106,14 +106,14 @@ app.get("/", (req, res) => res.redirect("/docs"));
 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-const configData = JSON.parse(
-  fs.readFileSync("../frontend/backend.config.json")
-);
+// const configData = JSON.parse(
+//   fs.readFileSync("../frontend/backend.config.json")
+// );
 
-const port = "BACKEND_PORT" in configData ? configData.BACKEND_PORT : 5000;
+// const port = "BACKEND_PORT" in configData ? configData.BACKEND_PORT : 5000;
 
 const server = app.listen(port, () => {
-  console.log(`Backend is now listening on port ${port}!`);
+  console.log(`Backend is now listening on port ${5000}!`);
   console.log(`For API docs, navigate to http://localhost:${port}`);
 });
 
