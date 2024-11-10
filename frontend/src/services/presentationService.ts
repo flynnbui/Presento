@@ -31,4 +31,50 @@ async function postNewThread(name: string, context: ContextType) {
         }
 }
 
-export { postNewThread }
+async function deletePresentation(pId: string, setUserData: React.Dispatch<React.SetStateAction<Store | undefined>>, userData?: Store) {
+    if (userData) {
+        const updatedPresentations: Presentation[] = userData.presentations.filter(presentation => presentation.pId !== pId);
+        const updatedUserData: Store = {
+            ...userData,
+            presentations: updatedPresentations
+        }
+        setUserData(updatedUserData);
+        await api.put('/store', {store: updatedUserData})
+    }
+}
+
+async function changePresentationName(pId: string, name: string, setUserData: React.Dispatch<React.SetStateAction<Store | undefined>>, userData?: Store) {
+    if (userData) {
+        const updatedPresentations: Presentation[] = userData.presentations.map(p => {
+            if (p.pId === pId) {
+                p.name = name
+            }
+            return p
+        });
+        const updatedUserData: Store = {
+            ...userData,
+            presentations: updatedPresentations
+        }
+        setUserData(updatedUserData);
+        await api.put('/store', {store: updatedUserData})
+    }
+}
+
+async function changePresentationThumbnail(pId: string, thumbnail: string, setUserData: React.Dispatch<React.SetStateAction<Store | undefined>>, userData?: Store) {
+    if (userData) {
+        const updatedPresentations: Presentation[] = userData.presentations.map(p => {
+            if (p.pId === pId) {
+                p.thumbnail = thumbnail
+            }
+            return p
+        });
+        const updatedUserData: Store = {
+            ...userData,
+            presentations: updatedPresentations
+        }
+        setUserData(updatedUserData);
+        await api.put('/store', {store: updatedUserData})
+    }
+}
+
+export { postNewThread, deletePresentation, changePresentationName, changePresentationThumbnail }
