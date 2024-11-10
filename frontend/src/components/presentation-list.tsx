@@ -9,9 +9,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import { ChevronsUpDown } from "lucide-react"
 import { Store } from "@/helpers/serverHelpers"
-import { deletePresentation } from "@/services/presentationService"
+import { changePresentationName, changePresentationThumbnail, deletePresentation } from "@/services/presentationService"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
 
 export type PresentationCard = {
   id: string
@@ -20,18 +32,75 @@ export type PresentationCard = {
   slideNumber: number
 }
 
-function PresentationMenu(icon: JSX.Element, cardInfo: PresentationCard, setUserData: React.Dispatch<React.SetStateAction<Store | undefined>>, userData?: Store) {
+function PresentationMenu(props: {trigger: JSX.Element, cardInfo: PresentationCard, setUserData: React.Dispatch<React.SetStateAction<Store | undefined>>, userData?: Store}) {
+  const [editField, setEditField] = useState("");
+  const [nameField, setName] = useState(props.cardInfo.name);
+  const [thumbnailField, setThumbnail] = useState(props.cardInfo.thumbnail);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  function resetFields() {
+    setName(props.cardInfo.name)
+    setThumbnail(props.cardInfo.thumbnail)
+  }
+
+  function handleEdit() {
+    if (editField === "name") {
+      if (props.userData) {
+        changePresentationName(props.cardInfo.id, nameField, props.setUserData, props.userData)
+      }
+    } else {
+      changePresentationThumbnail(props.cardInfo.id, thumbnailField, props.setUserData, props.userData)
+    }
+    setDialogOpen(false);
+  }
+  
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className="focus:outline-none">{icon}</DropdownMenuTrigger>
-      <DropdownMenuContent onClick={(event) => {event.stopPropagation()}} >
-        <DropdownMenuLabel>Edit/Delete</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="focus:bg-zinc-200">Edit Presentation Name {cardInfo.name} IGNORE THIS U IDIOT</DropdownMenuItem>
-        <DropdownMenuItem className="focus:bg-zinc-200">Edit Presentation Thumbnail</DropdownMenuItem>
-        <DropdownMenuItem className="focus:bg-zinc-200" onClick={() => {deletePresentation(cardInfo.id, setUserData, userData)}}>Delete Presentation</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>)
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      <DropdownMenu>
+        <DropdownMenuTrigger className="focus:outline-none">{props.trigger}</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>Edit/Delete</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+            <DropdownMenuItem className="focus:bg-zinc-200" onClick={() => {resetFields(); setEditField("name"); setDialogOpen(true)}}>
+              <DialogTrigger className="w-full h-full text-left cursor-default">
+                Edit Presentation Name
+              </DialogTrigger>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="focus:bg-zinc-200" onClick={() => {resetFields(); setEditField("thumbnail"); setDialogOpen(true)}}>
+              <DialogTrigger className="w-full h-full text-left cursor-default">
+                Edit Presentation Thumbnail
+              </DialogTrigger>
+          </DropdownMenuItem>
+          <DropdownMenuItem className="focus:bg-zinc-200" onClick={() => {deletePresentation(props.cardInfo.id, props.setUserData, props.userData)}}>Delete Presentation</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      
+    <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Edit Presentation</DialogTitle>
+          <DialogDescription>
+            Enter a new {editField === "name" ? "name" : "thumbnail"} to your presentation here. Click update when you're done.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="editField" className="text-right">
+              {editField === "name" ? "Name" : "Thumbnail"}
+            </Label>
+            <Input
+              id="editField"
+              value={editField === "name" ? nameField : thumbnailField}
+              onChange={(e) => editField === "name" ? setName(e.target.value) : setThumbnail(e.target.value) }
+              className="col-span-3"
+            />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button onClick={() => handleEdit()}>Update</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+    )
 }
 
 function dataToCard(data: PresentationCard[], navigate: NavigateFunction, setUserData: React.Dispatch<React.SetStateAction<Store | undefined>>, userData?: Store, name?: string) {
@@ -42,7 +111,7 @@ function dataToCard(data: PresentationCard[], navigate: NavigateFunction, setUse
         onClick={() => navigate(`presentation/${c.id}`)}>
         <div className="h-[100%] w-[50%] bg-gray-700"></div>
         <div className="h-[100%] w-[50%] flex flex-col justify-start overflow-hidden">
-          <div className="text-white/80 ml-auto mt-[5%] mr-[5%]">{PresentationMenu(<ChevronsUpDown className="hover:bg-zinc-700 hover:rounded"/>, c, setUserData, userData)}</div>
+          <div className="text-white/80 ml-auto mt-[5%] mr-[5%]" onClick={(event) => {event.stopPropagation()}}><PresentationMenu trigger={<ChevronsUpDown className="hover:bg-zinc-700 hover:rounded" />} cardInfo={c} setUserData={setUserData} userData={userData} /></div>
           <div className="text-white/80 text-wrap sm:text-sm md:text-1xl ml-4 text-center my-auto">{c.name}</div>
           <div className="text-white/60 text-wrap sm:text-sm md:text-1xl ml-4 text-center">{c.slideNumber} slides</div>
           <div className="text-white/80 text-wrap sm:text-xs md:text-sm mt-auto pb-[5%] ml-auto mr-[5%] italic">Creator: {name? name : "Unknown user"}</div>
