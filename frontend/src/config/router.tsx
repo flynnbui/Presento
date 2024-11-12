@@ -6,6 +6,7 @@ import RegisterPage from "../pages/RegisterPage";
 import Dashboard from "@/pages/Dashboard";
 import { PresentationPage } from "@/pages/PresentationPage";
 import RevealEditor from "@/pages/Test";
+import EditPage from "@/pages/TestNew"
 
 export const router = createBrowserRouter([
     {
@@ -21,7 +22,7 @@ export const router = createBrowserRouter([
         element: <RegisterPage/>,
     },
     {
-        path: "logout",
+        path: "/logout",
         element: <LogoutPage />
     },
     {
@@ -29,11 +30,15 @@ export const router = createBrowserRouter([
         element: <Dashboard/>,
     },
     {
-        path: "/presentation",
+        path: "/presentation/:id",
         element: <PresentationPage/>,
     },
     {
         path: "/test",
         element: <RevealEditor/>
+    },
+    {
+        path: "/testnew",
+        element: <EditPage/>
     }
 ]);

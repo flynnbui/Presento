@@ -108,7 +108,7 @@ function dataToCard(data: PresentationCard[], navigate: NavigateFunction, setUse
   let content: JSX.Element[] = data.map(c => {
     return (
       <div key={c.id} className="w-full aspect-[2/1] rounded-xl bg-zinc-800/50 flex flex-row hover:shadow-[inset_0_0_15px_5px_rgba(0,149,246,0.5)] transition-shadow duration-300"
-        onClick={() => navigate(`presentation/${c.id}`)}>
+        onClick={() => navigate(`/presentation/${c.id}`)}>
         <div className="h-[100%] w-[50%] bg-gray-700"></div>
         <div className="h-[100%] w-[50%] flex flex-col justify-start overflow-hidden">
           <div className="text-white/80 ml-auto mt-[5%] mr-[5%]" onClick={(event) => {event.stopPropagation()}}><PresentationMenu trigger={<ChevronsUpDown className="hover:bg-zinc-700 hover:rounded" />} cardInfo={c} setUserData={setUserData} userData={userData} /></div>
