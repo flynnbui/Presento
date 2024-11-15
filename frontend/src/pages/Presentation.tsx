@@ -251,8 +251,7 @@ export function PresentationPage() {
           (pres) => pres.pId === pId
         );
 
-        if(presentation)
-        {
+        if (presentation) {
           setpresentationTitle(presentation?.name)
         }
 
@@ -662,7 +661,6 @@ export function PresentationPage() {
 
   function makeCodeDiv(
     element: SlideElement,
-    setEditCodeShow: React.Dispatch<React.SetStateAction<boolean>>,
     setEId: React.Dispatch<React.SetStateAction<string>>,
     index: number
   ) {
@@ -691,7 +689,6 @@ export function PresentationPage() {
           fontSize: `${element.fontSize}em`
         }}
         onDoubleClick={() => {
-          setEditCodeShow(true);
           setEId(element.id);
         }}
       >
@@ -706,7 +703,6 @@ export function PresentationPage() {
     const [editTextShow, setEditTextShow] = useState(false);
     const [editImageShow, setEditImageShow] = useState(false);
     const [editVideoShow, setEditVideoShow] = useState(false);
-    const [editCodeShow, setEditCodeShow] = useState(false);
     const [eId, setEId] = useState("");
 
     useEffect(() => {
@@ -767,7 +763,7 @@ export function PresentationPage() {
       } else if (element.type === ElementTypes.VIDEO) {
         return makeVideoDiv(element, setEditVideoShow, setEId, index);
       } else if (element.type === ElementTypes.CODE) {
-        return makeCodeDiv(element, setEditCodeShow, setEId, index);
+        return makeCodeDiv(element, setEId, index);
       }
     });
 
