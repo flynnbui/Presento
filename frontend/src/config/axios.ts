@@ -4,7 +4,7 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 
-const baseUrl = "http://localhost:5005";
+const baseUrl = "https://presento-backend.vercel.app/";
 const config: AxiosRequestConfig = {
   baseURL: baseUrl,
 };
