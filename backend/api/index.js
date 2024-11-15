@@ -14,6 +14,7 @@ import {
   save,
   setStore,
 } from "./service";
+const { PROD_BACKEND_PORT, USE_VERCEL_KV } = process.env;
 
 const app = express();
 
@@ -101,32 +102,15 @@ app.put(
 /***************************************************************
                        Running Server
 ***************************************************************/
-// For local deployment
-// app.get("/", (req, res) => res.redirect("/docs"));
-
-// app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-
-// const configData = JSON.parse(
-//   fs.readFileSync("../frontend/backend.config.json")
-// );
-
-// const port = "BACKEND_PORT" in configData ? configData.BACKEND_PORT : 5000;
-
-// const server = app.listen(port, () => {
-//   console.log(`Backend is now listening on port ${port}!`);
-//   console.log(`For API docs, navigate to http://localhost:${port}`);
-// });
-
-// export default server;
-
-
-// For vercel deployment
-const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css";
-const swaggerOptions = {
-  customCssUrl: CSS_URL
-};
 
 app.get("/", (req, res) => res.redirect("/docs"));
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
-export default app;
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+const port = USE_VERCEL_KV
+  ? PROD_BACKEND_PORT
+  : JSON.parse(fs.readFileSync("../frontend/backend.config.json")).BACKEND_PORT;
+
+app.listen(port, () => {
+  console.log(`For API docs, navigate to http://localhost:${port}`);
+});
