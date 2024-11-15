@@ -1,4 +1,8 @@
-import axios, { AxiosRequestConfig, AxiosError, InternalAxiosRequestConfig  } from "axios";
+import axios, {
+  AxiosRequestConfig,
+  AxiosError,
+  InternalAxiosRequestConfig,
+} from "axios";
 
 const baseUrl = "http://localhost:5005";
 const config: AxiosRequestConfig = {
@@ -7,11 +11,13 @@ const config: AxiosRequestConfig = {
 
 const api = axios.create(config);
 
-const handleBefore = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig> => {
+const handleBefore = (
+  config: InternalAxiosRequestConfig
+): InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig> => {
   // CONFIG API NO TOKEN
   const noAuthEndpoints = ["/admin/auth/register", "/admin/auth/login"];
-  const requiresAuth = !noAuthEndpoints.some((endpoint) => 
-    config.url && config.url.includes(endpoint)
+  const requiresAuth = !noAuthEndpoints.some(
+    (endpoint) => config.url && config.url.includes(endpoint)
   );
   if (requiresAuth) {
     const token = localStorage.getItem("token");

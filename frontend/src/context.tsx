@@ -13,14 +13,14 @@ export interface ContextType {
   }
 
 export const initialValue:ContextType = {
-    getters: {
-        loginState: localStorage.getItem('token') !== null,
-        userData: undefined
-    },
-    setters: {
-        setLogin: () => {},
-        setUserData: () => {}
-    }
+  getters: {
+    loginState: localStorage.getItem('token') !== null,
+    userData: undefined
+  },
+  setters: {
+    setLogin: () => {},
+    setUserData: () => {}
+  }
 }
 
 export const Context = createContext(initialValue)
